@@ -4,6 +4,8 @@ from PyQt4.QtCore import *
 import numpy as np
 import sys
 import pyaudio
+import wave
+
 from matplotlib import pyplot as plt
 
 from mainUI import Ui_MainWindow
@@ -25,6 +27,8 @@ class ComposerMain(QMainWindow,Ui_MainWindow):
         
         self.changeOp(self.opSlider.value())
         self.changeSz(self.szSlider.value())
+        self.actionSave.triggered.connect(self.save)
+        self.sound = np.asarray([],dtype=np.uint8)
 
     def changeOp(self,op):
         self.inputWidget.setOp(op)
@@ -72,7 +76,7 @@ class ComposerMain(QMainWindow,Ui_MainWindow):
         w = arr.shape[1]
         #print("RATIO", ratio)
         stream = p.open(format=p.get_format_from_width(1),channels=1,rate=44100,output=True) #44100 Hz
-        sound = np.asarray([],dtype=np.uint8)
+        self.sound = np.asarray([],dtype=np.uint8)
         #maxes = []
         for j in range(w): #change here to w later.
             #mymax = 0
@@ -92,7 +96,7 @@ class ComposerMain(QMainWindow,Ui_MainWindow):
             #print(np.where(sig!=0))
             s = np.fft.ifft(sig,n=44100,norm="ortho")
             s = s.astype(np.uint8)
-            sound = np.concatenate((sound,s[:spp]))
+            self.sound = np.concatenate((self.sound,s[:spp]))
             stream.write(s[:spp])
             #stream.stop_stream()
             #stream.close()
@@ -100,13 +104,22 @@ class ComposerMain(QMainWindow,Ui_MainWindow):
             #plt.plot(sig)
             #plt.plot(s)
             #plt.show()
-        stream.write(sound)
+        #stream.write(sound)
         #plt.plot(maxes)
         #plt.show()
 
         print(w)
         stream.stop_stream()
         stream.close()
+    def save(self):
+        if self.sound != None:
+            f = wave.open('sound.wav',mode='wb')
+            f.setnchannels(1)
+            f.setsampwidth(1)
+            f.setframerate(44100)
+            f.writeframes(self.sound)
+            f.close()
+            print("Saved to sound.wav")
 
 
 
