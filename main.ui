@@ -243,7 +243,15 @@
     <addaction name="actionSave"/>
     <addaction name="actionLoad"/>
    </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="actionSnap_To_Pitch"/>
+    <addaction name="actionSnap_To_Tempo"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuSettings"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -275,6 +283,22 @@
   <action name="actionRadius">
    <property name="text">
     <string>Radius</string>
+   </property>
+  </action>
+  <action name="actionSnap_To_Pitch">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Snap To Pitch</string>
+   </property>
+  </action>
+  <action name="actionSnap_To_Tempo">
+   <property name="text">
+    <string>Snap To Tempo</string>
    </property>
   </action>
  </widget>

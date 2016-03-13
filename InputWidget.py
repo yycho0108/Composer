@@ -65,6 +65,7 @@ class InputWidget(QLabel):
         self.setPixmap(QPixmap.fromImage(self.mainImg))
         self.adjustSize()
         self.setScaledContents(True)
+        self.pSnap = True
 
     def mousePressEvent(self,event):
         self.drawing = True
@@ -82,7 +83,7 @@ class InputWidget(QLabel):
 
     def mouseMoveEvent(self,event):
         pt = event.pos()
-        if snap:
+        if self.pSnap:
             h = self.mainImg.height()
             ratio = h /(pitches[-1]-pitches[0])
             pt.setY(ratio * (closestPitch(pitches[0] + pt.y()/ratio)-pitches[0]))
@@ -139,6 +140,8 @@ class InputWidget(QLabel):
     def setZm(self,zm):
         self.zm = zm
         self.zoom(self.zm)
+    def setPSnap(self,pSnap):
+        self.pSnap = pSnap
 
     def resizeEvent(self,event):
         QLabel.resizeEvent(self,event)

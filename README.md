@@ -17,8 +17,8 @@ Features :
 - [ ] Snapping to Fractional Beat/Tempo
 - [x] Snapping to Pitch
 - [x] Pitch Label on side -> implemented with red lines marking Cs
-- [ ] Threading For iFFT calculation
-- [ ] Stop Button
+- [x] Threading For iFFT calculation
+- [x] Stop Button
 - [x] Save Functionality
 
 BugFix :
