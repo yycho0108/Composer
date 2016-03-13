@@ -18,9 +18,11 @@ class ComposerMain(QMainWindow,Ui_MainWindow):
         self.setWindowTitle("Composer")
         self.opSlider.valueChanged.connect(self.changeOp)
         self.szSlider.valueChanged.connect(self.changeSz)
-        self.zmSlider.sliderReleased.connect(self.changeZm)
-        self.playBtn.clicked.connect(self.play)
+        self.horzZmSlider.valueChanged.connect(self.changeZm)
+        self.vertZmSlider.valueChanged.connect(self.changeZm)
 
+        self.playBtn.clicked.connect(self.play)
+        
         self.changeOp(self.opSlider.value())
         self.changeSz(self.szSlider.value())
 
@@ -49,37 +51,60 @@ class ComposerMain(QMainWindow,Ui_MainWindow):
         self.changeZm()
 
     def changeZm(self):
-        zm = self.zmSlider.value()
-        zm /= 100.0
-        s = self.scrollArea.size() * zm
+        hzm = self.horzZmSlider.value()/100.0
+        vzm = self.vertZmSlider.value()/100.0
+        s = self.scrollArea.size()
+        
+        s.setWidth(s.width() * hzm)
+        s.setHeight(s.height() * vzm)
+
         self.scrollAreaWidgetContents.resize(s)
         self.inputWidget.resize(s)
         self.inputWidget.setZm(s)
         self.update()
 
     def play(self,event):
+        rate = 44100 #how long each pixel would last.
+        pps = self.ppsSpin.value()
+        spp = 44100/pps
         arr,ratio = self.inputWidget.getData()
         h = arr.shape[0]
         w = arr.shape[1]
         #print("RATIO", ratio)
-        stream = p.open(format=p.get_format_from_width(1),channels=1,rate=44100,output=True)
+        stream = p.open(format=p.get_format_from_width(1),channels=1,rate=44100,output=True) #44100 Hz
+        sound = np.asarray([],dtype=np.uint8)
+        #maxes = []
         for j in range(w): #change here to w later.
+            #mymax = 0
+            #argmax = 0
+            print(j)
+            sig_jw = reversed(arr[:,j])
             sig = np.zeros(44100,dtype=np.uint8) #signal
-            for i,s in enumerate(arr[:,j]):
+            for i,s in enumerate(sig_jw):
                 hz = int(np.exp(3.487 + i/ratio))
                 sig[hz] = s
                 sig[22050+hz] = -s
+                #if s>mymax:
+                #    argmax = hz 
+                #    mymax = s
+            #maxes += [argmax]
 
             #print(np.where(sig!=0))
             s = np.fft.ifft(sig,n=44100,norm="ortho")
             s = s.astype(np.uint8)
-            stream.write(s)
+            sound = np.concatenate((sound,s[:spp]))
+            stream.write(s[:spp])
             #stream.stop_stream()
             #stream.close()
             #plt.plot(arr[:,j])
             #plt.plot(sig)
             #plt.plot(s)
             #plt.show()
+        stream.write(sound)
+        #plt.plot(maxes)
+        #plt.show()
+
+        print(w)
         stream.stop_stream()
         stream.close()
 

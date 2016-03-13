@@ -14,6 +14,11 @@ pitches = [32.7,34.6,36.7,38.9,41.2,43.7,46.2,49.0,51.9,55.0,58.3,61.7,
 
 pitches = [math.log(p) for p in pitches]
 
+def closestPitch(p):
+    return min(pitches, key=lambda x:abs(x-p))
+
+snap = True
+
 
 def Blend(img1,img2,op):
     res = QImage(img1)
@@ -30,7 +35,7 @@ def toGreyScale(img):
     h = img.height()
     w = img.width()
     arr = np.zeros((h,w))
-    d = img.depth()
+    d = img.depth()/8
     linebytes = w*d
     for i in range(h):
         pxls = img.scanLine(i).asstring(linebytes)
@@ -70,7 +75,6 @@ class InputWidget(QLabel):
         self.drawing = False
 
         self.mainImg = Blend(self.mainImg,self.topImg,self.op)
-        #self.topImg = QImage(self.topImg.width(),self.topImg.height(),QImage.Format_ARGB32)
         self.topImg.fill(Qt.transparent)
         
         self.update()
@@ -78,6 +82,10 @@ class InputWidget(QLabel):
 
     def mouseMoveEvent(self,event):
         pt = event.pos()
+        if snap:
+            h = self.mainImg.height()
+            ratio = h /(pitches[-1]-pitches[0])
+            pt.setY(ratio * (closestPitch(pitches[0] + pt.y()/ratio)-pitches[0]))
         #print(pt)
         if(self.drawing):
             #print(pt)
@@ -93,6 +101,21 @@ class InputWidget(QLabel):
         p.setOpacity(1.0)
         for f in pitches: #fundamental pitches
             p.drawLine(0,h-ratio*(f-pitches[0]),self.mainImg.width(),h-ratio*(f-pitches[0]))
+        
+        pen = QPen(Qt.red)
+        pen.setWidth(5)
+        p.setPen(pen)
+        mC = np.log(261.6)
+        p.drawLine(0,h-ratio*(mC-pitches[0]),self.mainImg.width(),h-ratio*(mC-pitches[0]))
+        
+        pen.setColor(QColor.fromRgb(255,0,0,128))
+        pen.setWidth(2)
+        p.setPen(pen)
+        
+        for c in range(0,len(pitches),12):
+            p.drawLine(0,h-ratio*(pitches[c]-pitches[0]),self.mainImg.width(),h-ratio*(pitches[c]-pitches[0]))
+
+
 
     def paintEvent(self,event):
         QLabel.paintEvent(self,event)
@@ -100,8 +123,8 @@ class InputWidget(QLabel):
         r = event.rect()
         p.drawImage(self.mainImg.rect(),self.mainImg)
         p.setOpacity(self.op)
-        p.drawImage(self.mainImg.rect(),self.topImg)
         self.drawGrid(p)
+        p.drawImage(self.mainImg.rect(),self.topImg)
 
     def setOp(self,op):
         self.op = op/255.0

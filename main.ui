@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>957</width>
-    <height>711</height>
+    <width>984</width>
+    <height>732</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_3" rowstretch="5,1" columnstretch="3,1">
+   <layout class="QGridLayout" name="gridLayout_3" rowstretch="5,1" columnstretch="3,1,1">
     <item row="0" column="0">
      <widget class="QScrollArea" name="scrollArea">
       <property name="sizePolicy">
@@ -72,51 +72,45 @@
       </widget>
      </widget>
     </item>
-    <item row="0" column="1">
+    <item row="0" column="2">
      <layout class="QGridLayout" name="gridLayout_2" rowstretch="2,1">
       <item row="1" column="0">
        <widget class="QGroupBox" name="groupBox_2">
         <property name="title">
          <string>Other</string>
         </property>
-        <widget class="QSlider" name="zmSlider">
+        <widget class="QWidget" name="">
          <property name="geometry">
           <rect>
-           <x>30</x>
-           <y>70</y>
-           <width>160</width>
-           <height>29</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>100</number>
-         </property>
-         <property name="maximum">
-          <number>1000</number>
-         </property>
-         <property name="sliderPosition">
-          <number>100</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_3">
-         <property name="geometry">
-          <rect>
-           <x>80</x>
+           <x>10</x>
            <y>40</y>
-           <width>66</width>
-           <height>17</height>
+           <width>186</width>
+           <height>41</height>
           </rect>
          </property>
-         <property name="text">
-          <string>Zoom</string>
-         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>pxl/sec</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="ppsSpin">
+            <property name="minimum">
+             <number>10</number>
+            </property>
+            <property name="maximum">
+             <number>100</number>
+            </property>
+            <property name="value">
+             <number>50</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
-        <zorder>groupBox</zorder>
-        <zorder>zmSlider</zorder>
-        <zorder>label_3</zorder>
        </widget>
       </item>
       <item row="0" column="0">
@@ -169,6 +163,9 @@
           </item>
           <item>
            <widget class="QSlider" name="szSlider">
+            <property name="minimum">
+             <number>6</number>
+            </property>
             <property name="maximum">
              <number>255</number>
             </property>
@@ -186,10 +183,42 @@
       </item>
      </layout>
     </item>
-    <item row="1" column="1">
+    <item row="1" column="2">
      <widget class="QPushButton" name="playBtn">
       <property name="text">
        <string>Play</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QSlider" name="vertZmSlider">
+      <property name="minimum">
+       <number>100</number>
+      </property>
+      <property name="maximum">
+       <number>1000</number>
+      </property>
+      <property name="sliderPosition">
+       <number>100</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QSlider" name="horzZmSlider">
+      <property name="minimum">
+       <number>100</number>
+      </property>
+      <property name="maximum">
+       <number>1000</number>
+      </property>
+      <property name="sliderPosition">
+       <number>100</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
      </widget>
     </item>
@@ -200,7 +229,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>957</width>
+     <width>984</width>
      <height>25</height>
     </rect>
    </property>

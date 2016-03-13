@@ -15,7 +15,8 @@ Features :
 - [x] Resizing Frequency-domain when drawing
 - [ ] Linear Interpolation to achieve 44100 samples/sec
 - [ ] Snapping to Fractional Beat/Tempo
-- [ ] Snapping to Pitch
+- [x] Snapping to Pitch
+- [x] Pitch Label on side -> implemented with red lines marking Cs
 
 BugFix :
 - [ ] UI not initialized properly at startup
