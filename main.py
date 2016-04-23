@@ -1,4 +1,4 @@
-#/usr/bin/python2.7
+#!/usr/bin/python
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 import numpy as np
@@ -83,6 +83,8 @@ class ComposerMain(QMainWindow,Ui_MainWindow):
         self.computeThread = ComputeThread()
         self.computeThread.finished.connect(self.getSound)
 
+        self.clearBtn.clicked.connect(self.clear)
+
     def changeOp(self,op):
         self.inputWidget.setOp(op)
     def updateCursor(self,sz):
@@ -94,6 +96,8 @@ class ComposerMain(QMainWindow,Ui_MainWindow):
         p.begin(img)
         p.setPen(pen)
         p.drawEllipse(0,0,sz,sz)
+        p.drawLine(sz/2,0, sz/2, sz)
+        p.drawLine(0, sz/2, sz, sz/2)
         p.drawPoint(sz/2,sz/2)
         p.end()
         
@@ -186,6 +190,9 @@ class ComposerMain(QMainWindow,Ui_MainWindow):
             f.writeframes(self.sound)
             f.close()
             print("Saved to sound.wav")
+    def clear(self):
+        self.inputWidget.clear()
+
     def setPSnap(self):
         self.inputWidget.setPSnap(self.actionSnap_To_Pitch.isChecked())
 

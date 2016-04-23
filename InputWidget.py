@@ -69,6 +69,12 @@ class InputWidget(QLabel):
 
     def mousePressEvent(self,event):
         self.drawing = True
+
+        if(event.button() == Qt.LeftButton):
+            self.pen.setColor(QColor.fromRgb(255,255,255))#white
+        else:
+            self.pen.setColor(QColor.fromRgb(0,0,0))#black
+
         self.srcP = event.pos()
         event.accept()
 
@@ -161,4 +167,6 @@ class InputWidget(QLabel):
         ratio = self.mainImg.height() /(pitches[-1]-pitches[0])
         return toGreyScale(self.mainImg), ratio
 
-
+    def clear(self):
+        self.mainImg.fill(QColor.fromRgb(0,0,0))
+        self.update()

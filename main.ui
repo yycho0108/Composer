@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_3" rowstretch="5,1" columnstretch="3,1,1">
+   <layout class="QGridLayout" name="gridLayout_3" rowstretch="5,1,0" columnstretch="3,1,1">
     <item row="0" column="0">
      <widget class="QScrollArea" name="scrollArea">
       <property name="sizePolicy">
@@ -79,7 +79,7 @@
         <property name="title">
          <string>Other</string>
         </property>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -164,7 +164,7 @@
           <item>
            <widget class="QSlider" name="szSlider">
             <property name="minimum">
-             <number>6</number>
+             <number>1</number>
             </property>
             <property name="maximum">
              <number>255</number>
@@ -182,13 +182,6 @@
        </widget>
       </item>
      </layout>
-    </item>
-    <item row="1" column="2">
-     <widget class="QPushButton" name="playBtn">
-      <property name="text">
-       <string>Play</string>
-      </property>
-     </widget>
     </item>
     <item row="0" column="1">
      <widget class="QSlider" name="vertZmSlider">
@@ -219,6 +212,20 @@
       </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QPushButton" name="clearBtn">
+      <property name="text">
+       <string>Clear</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QPushButton" name="playBtn">
+      <property name="text">
+       <string>Play</string>
       </property>
      </widget>
     </item>
